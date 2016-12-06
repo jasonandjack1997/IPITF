@@ -12,17 +12,33 @@ from pitf import PITF
 def read_data(filepath):
     return np.genfromtxt(filepath, delimiter='\t', dtype=str, comments = "#@", max_rows = None)
 
-triples = read_data("..//data//yagoFacts.ttl")
-subjectSet = set(triples[:, 0])
-predicateSet = set(triples[:, 1])
-objectSet = set(triples[:, 2])
+#triples = read_data("..//data//yagoFacts.ttl")
 
-entitySet = subjectSet | objectSet
+entitySet = set()
+MAX_ENTITY_COUNT = 100
+id = 0
+triple_list = list()
+
+tripleCount = 10000000
+with open("..//data//yagoFacts.ttl", "r") as f:
+    for line in f:
+        if tripleCount < 0:
+            break
+        tripleCount -= 1       
+        if (not str(line).startswith("#@")):
+            s, p, o = str(line).split("\t")
+            if len(entitySet) <= MAX_ENTITY_COUNT and not s in entitySet:
+                entitySet.add(s)
+            if s in entitySet:
+                triple_list.append([s, p, o])
+
+    
+    
 
 entity_id_dict = dict()
 relation_id_dict = dict()
-id = 0
 
+id = 0
 for name in entitySet:
     entity_id_dict[name] = id
     id += 1
