@@ -20,12 +20,12 @@ p.add_argument("-v", "--verbose", help="verbosity", action='store_true')
 '''
 args = p.parse_args()
 
-
-args.infile = "sample_2.train"
-args.outfile = open("sample_2.model", "w")
-args.alpha = 0.05
+fileName = "id_triples1K"
+args.infile = "..//data//" + fileName + ".txt"
+args.outfile = open("..//data//" + fileName + ".model", "w")
+args.alpha = 0.01
 args.lamb = 0.00005
-args.k = 20
+args.k = 10
 args.max_iter = 500
 args.verbose = True
 
@@ -33,6 +33,7 @@ data = read_data(args.infile)
 data_shape = data[0]
 data = data[1:]
 
+print "begin PITF"
 model = PITF(args.alpha, args.lamb, args.k, args.max_iter, data_shape, args.verbose)
 
 model.fit(data, data)

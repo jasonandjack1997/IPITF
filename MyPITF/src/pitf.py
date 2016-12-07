@@ -1,4 +1,6 @@
 import numpy as np
+import gmpy2
+from gmpy2 import mpfr
 
 class PITF:
     def __init__(self,alpha=0.0001,lamb=0.1,k=30,max_iter=100,data_shape=None,verbose=0):
@@ -59,7 +61,9 @@ class PITF:
         return r
 
     def _sigmoid(self,x):
-        return 1.0 / (1.0 + np.exp(-x))
+        mpfrExp = gmpy2.exp(-x)
+        
+        return float(1.0 / (1.0 + mpfrExp))
 
     def _score(self,data):
         if data is None: return "No validation data"

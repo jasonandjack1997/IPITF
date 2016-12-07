@@ -24,7 +24,7 @@ predicted = model.predict_topN(data, N)
 
 np.savetxt(args.out_predicted_file, predicted, fmt='%.0f')
 
-
 answer = data[:, N - 1]
 
 print (answer==predicted[:, 2]).mean()
+
