@@ -20,13 +20,13 @@ p.add_argument("-v", "--verbose", help="verbosity", action='store_true')
 '''
 args = p.parse_args()
 
-fileName = "id_triples1K"
-args.infile = "..//data//" + fileName + ".txt"
+fileName = "base1000_step1000_n1"
+args.infile = "..//data//" + fileName + ".train"
 args.outfile = open("..//data//" + fileName + ".model", "w")
 args.alpha = 0.01
-args.lamb = 0.00005
+args.lamb = 0.005
 args.k = 10
-args.max_iter = 500
+args.max_iter = 100
 args.verbose = True
 
 data = read_data(args.infile)
