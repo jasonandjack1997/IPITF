@@ -78,9 +78,9 @@ def selectN2Id():
     return
 
 def incrementalSelection():
-    INIT_SUBJECT_COUNT = 1000
-    SUBJECT_INCREMENT = 1000
-    INCREMENT_COUNT = 5
+    INIT_SUBJECT_COUNT = 100
+    SUBJECT_INCREMENT = 100
+    INCREMENT_COUNT = 1
     TEST_RATIO = 0.3
 
     subjectSet = set()
@@ -154,7 +154,7 @@ def incrementalSelection():
         objectSet |= deltaObjectSet
         relationSet |= deltaRelationSet
         
-        tensorShape = [len(subjectSet), len(objectSet), len(relationSet)]
+        tensorShape = [len(subjectSet), len(relationSet), len(objectSet)]
         
 
         # build new triples with ids
@@ -162,7 +162,7 @@ def incrementalSelection():
             s_id = subject_id_dict.get(s)
             o_id = object_id_dict.get(o)
             r_id = relation_id_dict.get(r)
-            deltaTripleIdList.append([s_id, o_id, r_id])
+            deltaTripleIdList.append([s_id, r_id, o_id])
         tripleIdList.extend(deltaTripleIdList)
         npDelataTripleIdList = np.asarray(deltaTripleIdList)
         

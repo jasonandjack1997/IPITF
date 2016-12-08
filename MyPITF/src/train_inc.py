@@ -20,7 +20,7 @@ p.add_argument("-v", "--verbose", help="verbosity", action='store_true')
 '''
 args = p.parse_args()
 
-trainingFilePathNPrefix = "..//data//base1000_step1000_n3"
+trainingFilePathNPrefix = "..//data//taobao100"
 baseModelPath = "..//data//base1000_step1000_n2.incModel"
 
 INC_TRAIN = False
@@ -31,13 +31,13 @@ if INC_TRAIN == True:
 else:
     args.outfile = open(trainingFilePathNPrefix + ".retrainModel", "w")
     
-
-args.basemodelfile = open(baseModelPath, "r")
+if INC_TRAIN == True:
+    args.basemodelfile = open(baseModelPath, "r")
 
 args.alpha = 0.01
 args.lamb = 0.005
 args.k = 10
-args.max_iter = 100
+args.max_iter = 500
 args.verbose = True
 
 
@@ -59,4 +59,6 @@ else:
 pickle.dump(model, args.outfile)
 
 args.outfile.close()
-args.basemodelfile.close()
+
+if INC_TRAIN == True:
+    args.basemodelfile.close()

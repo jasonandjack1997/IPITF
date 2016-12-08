@@ -10,6 +10,7 @@ class PITF:
         self.max_iter = max_iter
         self.data_shape = data_shape
         self.verbose = verbose
+        self.topN = 20
 
     def _init_latent_vectors_inc(self,data_shape, base_latent_vector): #put trained smaller latent vectors into current bigger vector
         latent_vector = {}
@@ -69,7 +70,7 @@ class PITF:
         if data is None: return "No validation data"
         correct = 0.
         for u,i,answer_t in data:
-            predicted = self.predict(u,i)
+            predicted = self.predict_TopN(u,i)
             if predicted == answer_t: correct += 1
         return correct / data.shape[0]
 
@@ -128,12 +129,17 @@ class PITF:
         y = self.latent_vector_['tu'].dot(self.latent_vector_['u'][i]) + self.latent_vector_['ti'].dot(self.latent_vector_['i'][j])
         return y.argmax()
 
+    def predict_TopN(self,i,j):
+        y = self.latent_vector_['tu'].dot(self.latent_vector_['u'][i]) + self.latent_vector_['ti'].dot(self.latent_vector_['i'][j])
+        #return y.argmax()
+        return y.argsort(axis=0)[:, self.topN:]
+     
     def predict2(self,x):
         y = self.latent_vector_['u'][x[:,0]].dot(self.latent_vector_['tu'].T) + self.latent_vector_['i'][x[:,1]].dot(self.latent_vector_['ti'].T)
         return x[:,0], x[:,1], y.argmax(axis=1)
         #return y.argmax(axis=1)
         
-    def predict_topN(self,x, n):
+    def predict2_topN(self,x, n):
         y = self.latent_vector_['u'][x[:,0]].dot(self.latent_vector_['tu'].T) + self.latent_vector_['i'][x[:,1]].dot(self.latent_vector_['ti'].T)
         return y.argsort(axis=1)[:, -n:]
         
